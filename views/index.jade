@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    h1 JSDownloader
+    p Enter a JSFiddle URL in the input field below
+    form(action="/download", method="post")
+        input(type="text",name="source_url")
+        input(type="submit")
+
+    if msg
+        p #{msg}

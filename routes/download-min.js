@@ -1,0 +1,3 @@
+/*
+ * GET users listing.
+ */var http=require("http"),$=require("cheerio");getJSFiles=function(e){return e.find("script[src]").map(function(e,t){return prepFileUrl($(this).attr("src"))}).join(", ")};getCSSFiles=function(e){return e.find("link[href]").map(function(e,t){return prepFileUrl($(this).attr("href"))}).join(", ")};prepFileUrl=function(e){var t;if(e.match(/^\/\/\//)>-1)t="http:"+e;else if(e.match(/^\/\//)>-1){t="http:"+e;console.log(e,t)}return t};exports.download=function(e,t){var n={msg:"Now downloading from "+e.body.fiddle_url},r=e.body.fiddle_url+"show/";http.get(r,function(e){e.on("data",function(e){var t=$(""+e),n=getJSFiles(t),r=getCSSFiles(t)})}).on("error",function(e){console.log("Got error: "+e.message)});t.render("index",n)};
