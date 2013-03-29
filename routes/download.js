@@ -74,17 +74,29 @@ fileNameFromUrl = function(file) {
 
 downloadFile = function(dir, remotefile, name) {
     request(remotefile).pipe(fs.createWriteStream(dir + name));
-    console.log('creating ' + name);
+    // console.log('creating ' + name);
 };
 
 writeZip = function(dir,name) {
-    var zip = new JSZip(),
-        code = zip.folder(dir),
-        output = zip.generate({type:"arraybuffer"}),
-        filename = ['jsd-',name,'.zip'].join('');
+    // // adm-zip version
+    // var zip = new AdmZip(),
+    //     filename = ['jsd-',name,'.zip'].join(''),
+    //     ls = fs.readdirSync(dir);
 
-    fs.writeFileSync(baseDir + filename, output);
-    console.log('creating ' + filename);
+    // ls.forEach(function(file){
+    //     zip.addLocalFile(dir + file);
+    // });
+
+    // zip.writeZip(baseDir + filename);
+
+
+    // node zip version
+    // var zip = new JSZip(),
+    //     filename = ['jsd-',name,'.zip'].join(''),
+    //     ls = fs.readdirSync(dir);
+    // zip.file('test.txt', 'hello there');
+    // var data = zip.generate({base64:false,compression:'DEFLATE'});
+    // fs.writeFileSync('test.zip', data, 'binary');
 };
 
 rewritePaths = function($html, jsArr, cssArr) {
@@ -93,12 +105,12 @@ rewritePaths = function($html, jsArr, cssArr) {
     jsArr.forEach(function(file){
         var filename = fileNameFromUrl(file);
         html = html.replace(file, 'js/' + filename);
-        console.log(file, filename);
+        // console.log(file, filename);
     });
     cssArr.forEach(function(file){
         var filename = fileNameFromUrl(file);
         html = html.replace(file, 'css/' + filename);
-        console.log(file, filename);
+        // console.log(file, filename);
     });
     return html;
 };
@@ -124,17 +136,15 @@ exports.download = function(req, res){
 
             // create tmp, js, and css directories
             fs.mkdirSync(dir);
-            fs.mkdirSync(jsdir);
-            fs.mkdirSync(cssdir);
 
             // save index file
             fs.writeFileSync(dir + 'index.html', html);
 
             // Save JS files
-            processRemoteFiles(js.final, jsdir);
+            processRemoteFiles(js.final, dir);
 
             // Save CSS files
-            processRemoteFiles(css.final, cssdir);
+            processRemoteFiles(css.final, dir);
 
             // write zip file to /tmp
             writeZip(dir,uniqueName);
