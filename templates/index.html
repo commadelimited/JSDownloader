@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+
+  <form class="form-signin" action="/login/" method="post">
+    <h3 class="form-signin-heading">Please sign in</h3>
+    {% if msg %}
+        <p class="alert alert-error">{{ msg }}</p>
+    {% endif %}
+    <input type="text" name="username" class="input-block-level" placeholder="Username">
+    <input type="password" name="password" class="input-block-level" placeholder="Password">
+    <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+  </form>
+
+{% endblock %}

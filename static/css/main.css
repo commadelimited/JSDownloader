@@ -1,0 +1,11 @@
+#header { position: relative; }
+#header .navbar-inner a { color: #ffffff; }
+
+a { color: #A81128; }
+
+#content .form-signin { max-width: 300px; padding: 19px 29px 29px; margin: 30px auto 20px; background-color: #fff; border: 1px solid #e5e5e5; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); }
+#content .form-signin .form-signin-heading, #content .form-signin .checkbox { margin-bottom: 10px; }
+#content .form-signin input[type="text"], #content .form-signin input[type="password"] { font-size: 16px; height: auto; margin-bottom: 15px; padding: 7px 9px; }
+#content li { line-height: 30px; }
+#content li a { font-size: 1.2em; }
+#content li audio { width: 100%; }
