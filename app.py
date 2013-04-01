@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template
+import downloading
+from flask import Flask, render_template, request
 
 application = Flask(__name__)
 application.debug = True
@@ -7,12 +8,22 @@ application.debug = True
 
 @application.route('/')
 def index(name=None):
-    return render_template('signin.html')
+    return render_template('index.html')
 
 
-@application.route('/login/', methods=["GET", "POST"])
-def login():
-    return render_template('signin.html', msg='Login failed. Please try again')
+@application.route('/download/', methods=["POST"])
+def download():
+    if request.method == 'POST':
+        downloading.Downloading(request.form['downloadurl'])
+    return render_template('index.html')
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
