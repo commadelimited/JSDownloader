@@ -1,11 +1,42 @@
 extends layout
 
 block content
-    h1 JSDownloader
-    p Enter a JSFiddle URL in the input field below
-    form(action="/download", method="post")
-        input(type="text",name="source_url")
-        input(type="submit")
+    div(class="container", id="content")
+        form(action="/download", method="post", class="span8 form-signin")
+            div(class="row")
+                div(class="span8")
+                    a(href="/")
+                        h1(class="form-signin-heading") JSDownloader
+                    p Enter a JSFiddle URL in the input field below
+                    input(type="text", id="source_url", name="source_url", class="input-block-level", placeholder="Download URL")
 
-    if msg
-        p #{msg}
+                div(class="span2")
+                    input(type="submit", class="btn btn-large btn-primary")
+
+                div(class="span5")
+                    if msg
+                        p #{msg}
+
+        div(class="row span12", id="links")
+            div(class="span10 offset2")
+                p Click one of the examples below to download it's code.
+
+            div(class="span4 offset2")
+                h2 JSFiddle
+                ul
+                    li
+                        a(href="http://jsfiddle.net/commadelimited/SA45t/2/") /commadelimited/SA45t/2/
+                    li
+                        a(href="http://jsfiddle.net/odigity/zS5uu/") /odigity/zS5uu/
+                    li
+                        a(href="http://jsfiddle.net/phillpafford/wvVmT/2/") /phillpafford/wvVmT/2/
+                    li
+                        a(href="http://jsfiddle.net/mT76T/17/") /mT76T/17/
+                    li
+                        a(href="http://jsfiddle.net/jonathansampson/3y4hz/3/") /jonathansampson/3y4hz/3/
+
+            div(class="span4")
+                h2 JSBin
+                ul
+                    li
+                        a(href="http://jsbin.com/oxuyop/777") /oxuyop/777
