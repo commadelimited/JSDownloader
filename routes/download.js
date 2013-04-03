@@ -9,6 +9,8 @@
     http://jsfiddle.net/phillpafford/wvVmT/2/
     http://jsfiddle.net/mT76T/17/
     http://jsfiddle.net/jonathansampson/3y4hz/3/
+
+    http://jsbin.com/oxuyop/777
 */
 
 var http = require('http'),
@@ -21,7 +23,20 @@ var http = require('http'),
     baseDir = '/tmp/';
 
 getSourceUrl = function(url) {
-    return url + 'show/';
+    console.log(url);
+    if (url.indexOf('jsfiddle') > -1) {
+        return url + 'show/';
+    } else if (url.indexOf('codepen') > -1) {
+        var reversed = reverse(url),
+            actual = reverse(reversed.replace(/^[^/]+/i,''));
+        return actual;
+    } else {
+        return url;
+    }
+};
+
+reverse = function(str) {
+    return str.split('').reverse().join('');
 };
 
 extractFileNames = function(type, $html, domain) {
@@ -69,12 +84,14 @@ processRemoteFiles = function(arr, dir) {
 
     async.forEach(arr,function(url, cb){
         var filename = url.split('/').reverse()[0];
-        download(dir + filename, url, function(err,result){
-          //handle error here
-          cb();
-        });
+        if (url !== '') {
+            download(dir + filename, url, function(err,result){
+              //handle error here
+              cb();
+            });
+        }
     },function(e){
-        console.log(e);
+        // console.log(e);
     });
 };
 
