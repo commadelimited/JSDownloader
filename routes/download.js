@@ -17,14 +17,14 @@ var http = require('http'),
     fs = require('fs'),
     pw = require('password-generator'),
     request = require('request'),
-    zip = require('node-zip'),
+    async = require('async'),
     baseDir = '/tmp/';
 
 getSourceUrl = function(url) {
     return url + 'show/';
 };
 
-getFileList = function(type, $html, domain) {
+extractFileNames = function(type, $html, domain) {
     var obj = {
             raw: [],
             final: []
@@ -62,9 +62,19 @@ prepFileUrl = function(url, domain) {
 };
 
 processRemoteFiles = function(arr, dir) {
-    arr.forEach(function(file){
-        var filename = fileNameFromUrl(file);
-        downloadFile(dir, file, filename);
+    // arr.forEach(function(file){
+    //     var filename = fileNameFromUrl(file);
+    //     downloadFile(dir, file, filename);
+    // });
+
+    async.forEach(arr,function(url, cb){
+        var filename = url.split('/').reverse()[0];
+        download(dir + filename, url, function(err,result){
+          //handle error here
+          cb();
+        });
+    },function(e){
+        console.log(e);
     });
 };
 
@@ -72,31 +82,29 @@ fileNameFromUrl = function(file) {
     return file.split('/').reverse()[0];
 };
 
-downloadFile = function(dir, remotefile, name) {
-    request(remotefile).pipe(fs.createWriteStream(dir + name));
-    // console.log('creating ' + name);
+download = function(localFile, remotePath, callback) {
+    var localStream = fs.createWriteStream(localFile);
+
+    var out = request({ uri: remotePath });
+    out.on('response', function (resp) {
+        if (resp.statusCode === 200){
+            out.pipe(localStream);
+            localStream.on('close', function () {
+                callback(null, localFile);
+            });
+        } else {
+            callback(new Error("No file found at given url."),null);
+        }
+    });
 };
 
+// downloadFile = function(dir, remotefile, name) {
+//     request(remotefile).pipe(fs.createWriteStream(dir + name));
+//     // console.log('creating ' + name);
+// };
+
 writeZip = function(dir,name) {
-    // // adm-zip version
-    // var zip = new AdmZip(),
-    //     filename = ['jsd-',name,'.zip'].join(''),
-    //     ls = fs.readdirSync(dir);
 
-    // ls.forEach(function(file){
-    //     zip.addLocalFile(dir + file);
-    // });
-
-    // zip.writeZip(baseDir + filename);
-
-
-    // node zip version
-    // var zip = new JSZip(),
-    //     filename = ['jsd-',name,'.zip'].join(''),
-    //     ls = fs.readdirSync(dir);
-    // zip.file('test.txt', 'hello there');
-    // var data = zip.generate({base64:false,compression:'DEFLATE'});
-    // fs.writeFileSync('test.zip', data, 'binary');
 };
 
 rewritePaths = function($html, jsArr, cssArr) {
@@ -126,8 +134,8 @@ exports.download = function(req, res){
     http.get(fullurl, function(res) {
         res.on('data', function (chunk) {
             var $source = $(''+chunk),
-                js = getFileList('js', $source, domain),
-                css = getFileList('css', $source, domain),
+                js = extractFileNames('js', $source, domain),
+                css = extractFileNames('css', $source, domain),
                 uniqueName = pw(),
                 dir = [baseDir,'jsd-', uniqueName, '/'].join(''),
                 jsdir = dir + 'js/',
