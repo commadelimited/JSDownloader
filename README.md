@@ -16,6 +16,8 @@ Paste in the URL of a JSFiddle you'd like to download. Here's a few you can try 
 * http://jsfiddle.net/mT76T/17/
 * http://jsfiddle.net/jonathansampson/3y4hz/3/
 
+* http://jsbin.com/oxuyop/777
+
 Files will be downloaded into your `/tmp/` directory, prepended with `jsd`. You should see a ZIP and a directory, both with the same name. For example:
 
 * jsd-cojosapisa
