@@ -8,6 +8,7 @@ application.debug = True
 
 @application.route('/')
 def index(name=None):
+    # import pdb;pdb.set_trace()
     return render_template('index.html')
 
 

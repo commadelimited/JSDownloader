@@ -2,16 +2,17 @@ import requests
 import pyquery
 import string
 import random
+from urlparse import urlparse
 
 
 class Downloading(object):
     fullurl = ''
-    url_bits = ''  # = url.parse(fullurl),
+    url_bits = ''
     domain = ''  # = [url_bits.protocol,'//',url_bits.hostname].join('');
 
     def __init__(self, url=None):
-        self.fullurl = url
-        import pdb; pdb.set_trace()
+        self.fullurl = self.validate_url(url)
+        import pdb;pdb.set_trace()
         pass
 
     def random_string(length):
@@ -19,8 +20,19 @@ class Downloading(object):
         txt = u''.join(random.choice(chars) for _ in range(length))
         return txt
 
-    def validate_url():
-        pass
+    def validate_url(self, url):
+        explode = urlparse(url)
+
+        # make sure the URL is valid
+        if explode.netloc:
+            self.url_bits = explode
+
+        if self.url_bits.netloc == 'jsfiddle.net':
+            return self.url_bits.geturl() + '/show/'
+        elif self.url_bits.netloc == 'jsbin.com':
+            return self.url_bits.geturl()[0:-4]
+
+
 
 
 # /* fiddles to test
