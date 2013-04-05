@@ -1,17 +1,8 @@
-
-/*
- * GET users listing.
+/**
+ *
+ * Allows users to download an HTML page and remote JS/CSS resources
+ *
  */
-
-/* fiddles to test
-    http://jsfiddle.net/commadelimited/SA45t/2/
-    http://jsfiddle.net/odigity/zS5uu/
-    http://jsfiddle.net/phillpafford/wvVmT/2/
-    http://jsfiddle.net/mT76T/17/
-    http://jsfiddle.net/jonathansampson/3y4hz/3/
-
-    http://jsbin.com/oxuyop/777
-*/
 
 var http = require('http'),
     $ = require('cheerio'),
@@ -20,10 +11,17 @@ var http = require('http'),
     pw = require('password-generator'),
     request = require('request'),
     async = require('async'),
+
     baseDir = '/tmp/';
 
+/**
+ * Given a valid URL, returns the correct URL for either JSFiddle or JSBin.
+ *
+ * @param {url} valid URL
+ * return {string}
+ */
 getSourceUrl = function(url) {
-    console.log(url);
+
     if (url.indexOf('jsfiddle') > -1) {
         return url + 'show/';
     } else if (url.indexOf('codepen') > -1) {
@@ -35,11 +33,25 @@ getSourceUrl = function(url) {
     }
 };
 
+/**
+ * Reverses a string in place
+ *
+ * @param {str} a string
+ * return {string}
+ */
 reverse = function(str) {
     return str.split('').reverse().join('');
 };
 
-extractFileNames = function(type, $html, domain) {
+/**
+ * Extracts JS and CSS file names from HTML source
+ *
+ * @param {type} either js or css
+ * @param {html} the full HTML as retrieved from the target URL
+ * @param {domain} the TLD of the target URL
+ * return {object}
+ */
+extractFileNames = function(type, html, domain) {
     var obj = {
             raw: [],
             final: []
@@ -55,39 +67,60 @@ extractFileNames = function(type, $html, domain) {
             }
         };
 
-    obj.final = $html.find(options[type].find).map(function(i, el) {
+    obj.final = html.find(options[type].find).map(function(i, el) {
         var file = $(this).attr(options[type].attr);
-        obj.raw.push(file);
-        return prepFileUrl(file, domain);
+        // we only want JS and CSS files right now
+        if (file.match(/.js$/) || file.match(/.css$/)) {
+            obj.raw.push(file);
+            return prepFileUrl(file, domain);
+        }
     }).join(',').split(',');
+
+    console.log(obj);
 
     return obj;
 };
 
+/**
+ * determines pathing for remote URL
+ *
+ * @param {url} a remote URL
+ * @param {domain} the TLD of the target URL
+ * return {string}
+ */
 prepFileUrl = function(url, domain) {
     var finalUrl;
+    // protocol relative URL, pulls from domain external to that of
+    // the original target URL.
+    // http://paulirish.com/2010/the-protocol-relative-url/
     if (url.substring(0,2) === '//') {
         finalUrl = ['http:',url].join('');
+    // root relative URL. Pulls from original target URL
     } else if (url.substring(0,1) === '/') {
         finalUrl = [domain,url].join('');
+    // Begins with some standard protocol (http or https usually)
     } else {
         finalUrl = url;
     }
     return finalUrl;
 };
 
-processRemoteFiles = function(arr, dir) {
-    // arr.forEach(function(file){
-    //     var filename = fileNameFromUrl(file);
-    //     downloadFile(dir, file, filename);
-    // });
+/**
+ * Loops over list of remote files. Prepares them for download
+ *
+ * @param {arr} an array of URLs to download
+ * @param {domain} the target directory
+ * return {void}
+ */
+processRemoteFiles = function(jsArr, cssArr, dir) {
+    var contactArr = jsArr.concat(cssArr);
 
-    async.forEach(arr,function(url, cb){
+    async.forEach(contactArr,function(url, cb){
         var filename = url.split('/').reverse()[0];
         if (url !== '') {
             download(dir + filename, url, function(err,result){
-              //handle error here
-              cb();
+                //handle error here
+                cb();
             });
         }
     },function(e){
@@ -95,10 +128,24 @@ processRemoteFiles = function(arr, dir) {
     });
 };
 
+/**
+ * Extracts file name from a URL
+ *
+ * @param {file} the URL of a remote file
+ * return {string}
+ */
 fileNameFromUrl = function(file) {
     return file.split('/').reverse()[0];
 };
 
+/**
+ * Downloads a remote file to the local file system
+ *
+ * @param {localFile} where the file will be downloaded to
+ * @param {remotePath} the URL of a remote file
+ * @param {callback} what does this do?
+ * return {void}
+ */
 download = function(localFile, remotePath, callback) {
     var localStream = fs.createWriteStream(localFile);
 
@@ -115,31 +162,46 @@ download = function(localFile, remotePath, callback) {
     });
 };
 
-// downloadFile = function(dir, remotefile, name) {
-//     request(remotefile).pipe(fs.createWriteStream(dir + name));
-//     // console.log('creating ' + name);
-// };
-
+/**
+ * Packages local files into a ZIP archive
+ *
+ * @param {dir} directory of source files.
+ * @param {name} the zip archive file name
+ * return {void}
+ */
 writeZip = function(dir,name) {
 
 };
 
-rewritePaths = function($html, jsArr, cssArr) {
+/**
+ * Packages local files into a ZIP archive
+ *
+ * @param {html} source html
+ * @param {jsArr} Array of javascript file URLs
+ * @param {cssArr} Array of css file URLs
+ * return {void}
+ */
+rewritePaths = function(html, jsArr, cssArr) {
     // loop over js, replace with relative references
-    var html = $html.toString();
-    jsArr.forEach(function(file){
+    var local_html = html.toString(),
+        local_arr = jsArr.concat(cssArr);
+
+    local_arr.forEach(function(file){
         var filename = fileNameFromUrl(file);
-        html = html.replace(file, 'js/' + filename);
-        // console.log(file, filename);
+        local_html = local_html.replace(file, filename);
     });
-    cssArr.forEach(function(file){
-        var filename = fileNameFromUrl(file);
-        html = html.replace(file, 'css/' + filename);
-        // console.log(file, filename);
-    });
-    return html;
+
+    return local_html;
 };
 
+/**
+ * Packages local files into a ZIP archive
+ *
+ * @param {html} source html
+ * @param {jsArr} Array of javascript file URLs
+ * @param {cssArr} Array of css file URLs
+ * return {void}
+ */
 exports.download = function(req, res){
     var response = {
         msg: 'Now downloading from ' + req.body.source_url
@@ -148,9 +210,24 @@ exports.download = function(req, res){
     urlBits = url.parse(fullurl),
     domain = [urlBits.protocol,'//',urlBits.hostname].join('');
 
-    http.get(fullurl, function(res) {
-        res.on('data', function (chunk) {
-            var $source = $(''+chunk),
+
+    http.get(fullurl, function(response) {
+        var fullResponse = [];
+
+        response
+        .on('data', function (chunk) {
+
+            // buffer entire HTML page before running the balace of the app
+            fullResponse.push(''+chunk);
+
+        }).on('error', function(err){
+
+            // return error message
+            response.msg = err.message;
+
+        }).on('end', function(data){
+
+            var $source = $(fullResponse.join('').toString()),
                 js = extractFileNames('js', $source, domain),
                 css = extractFileNames('css', $source, domain),
                 uniqueName = pw(),
@@ -159,24 +236,21 @@ exports.download = function(req, res){
                 cssdir = dir + 'css/',
                 html = rewritePaths($source, js.raw, css.raw);
 
-            // create tmp, js, and css directories
+            // create temporary directory
             fs.mkdirSync(dir);
 
             // save index file
             fs.writeFileSync(dir + 'index.html', html);
 
             // Save JS files
-            processRemoteFiles(js.final, dir);
-
-            // Save CSS files
-            processRemoteFiles(css.final, dir);
+            processRemoteFiles(js.final, css.final, dir);
 
             // write zip file to /tmp
-            writeZip(dir,uniqueName);
-
+            // writeZip(dir,uniqueName);
         });
-    }).on('error', function(e) {
-        console.log("Got error: " + e.message);
+    }).on('error', function(err) {
+        // return error message
+        response.msg = err.message;
     });
 
     res.render('index', response);
