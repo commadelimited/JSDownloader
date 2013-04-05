@@ -24,10 +24,14 @@ getSourceUrl = function(url) {
 
     if (url.indexOf('jsfiddle') > -1) {
         return url + 'show/';
-    } else if (url.indexOf('codepen') > -1) {
+    } else if (url.indexOf('jsbin') > -1) {
         var reversed = reverse(url),
             actual = reverse(reversed.replace(/^[^/]+/i,''));
         return actual;
+    } else if (url.indexOf('codepen') > -1) {
+        // incoming: http://codepen.io/katmai7/pen/cDtIo
+        // outgoing: http://codepen.io/katmai7/fullpage/cDtIo
+        return url.replace('/pen/','/fullpage/');
     } else {
         return url;
     }
