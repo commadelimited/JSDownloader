@@ -128,9 +128,7 @@ processRemoteFiles = function(jsArr, cssArr, dir) {
             });
         }
     },function(e){
-        if (typeof socket === 'object') {
-            socket.emit('done', e);
-        }
+        sendMessage('done', e);
     });
 };
 
@@ -161,21 +159,17 @@ download = function(localFile, remotePath, callback) {
         if (resp.statusCode === 200){
             out.pipe(localStream);
             localStream.on('close', function () {
-                if (typeof socket === 'object') {
-                    socket.emit('fileDone', {
-                        name: localFile,
-                        success: true
-                    });
-                }
+                sendMessage('fileDone', {
+                    name: localFile,
+                    success: true
+                });
                 callback(null, localFile);
             });
         } else {
-            if (typeof socket === 'object') {
-                socket.emit('fileDone', {
-                    name: localFile,
-                    success: false
-                });
-            }
+            sendMessage('fileDone', {
+                name: localFile,
+                success: false
+            });
             callback(new Error("No file found at given url."),null);
         }
     });
@@ -270,6 +264,7 @@ exports.download = function(req, res){
     }).on('error', function(err) {
         // return error message
         response.msg = err.message;
+        sendMessage('done', err);
     });
 
     res.render('index', response);

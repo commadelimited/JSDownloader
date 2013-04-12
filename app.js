@@ -9,7 +9,15 @@ var express = require('express'),
     http = require('http'),
     path = require('path'),
     app = express(),
-    server, io;
+    server, io, socket, messages = [];
+
+global.sendMessage = function (name, data) {
+    if (socket) {
+        socket.emit(name, data);
+    } else {
+        messages.push([name, data]);
+    }
+};
 
 app.configure(function(){
     app.set('port', process.env.PORT || 3000);
@@ -35,6 +43,9 @@ server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 io = require('socket.io').listen(server);
-io.sockets.on('connection', function (socket) {
-    global.socket = socket;
+io.sockets.on('connection', function (s) {
+    socket = s;
+    for (var i = 0; i < messages.length; i++) {
+        socket.emit(messages[i][0], messages[i][1]);
+    }
 });
