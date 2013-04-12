@@ -11,6 +11,7 @@
     "cheerio": "~0.10.0",
     "password-generator": "0.2.0",
     "request": "2.16.6",
-    "async": "0.2.6"
+    "async": "0.2.6",
+    "socket.io": ">=0.9.14"
   }
 }

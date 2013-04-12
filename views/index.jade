@@ -13,9 +13,11 @@ block content
                 div(class="span2")
                     input(type="submit", class="btn btn-large btn-primary")
 
-                div(class="span5")
+                div(class="span5",id="messages")
                     if msg
                         p #{msg}
+                        p ...
+                        ul
 
         div(class="row span14", id="links")
             div(class="span10 offset2")
