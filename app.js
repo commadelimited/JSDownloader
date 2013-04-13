@@ -7,9 +7,17 @@ var express = require('express'),
     routes = require('./routes'),
     download = require('./routes/download'),
     http = require('http'),
-    path = require('path');
+    path = require('path'),
+    app = express(),
+    server, io, socket, messages = [];
 
-var app = express();
+global.sendMessage = function (name, data) {
+    if (socket) {
+        socket.emit(name, data);
+    } else {
+        messages.push([name, data]);
+    }
+};
 
 app.configure(function(){
     app.set('port', process.env.PORT || 3000);
@@ -30,6 +38,14 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.post('/download', download.download);
 
-http.createServer(app).listen(app.get('port'), function(){
+server = http.createServer(app).listen(app.get('port'), function(){
     console.log("Listening on port " + app.get('port'));
+});
+
+io = require('socket.io').listen(server);
+io.sockets.on('connection', function (s) {
+    socket = s;
+    for (var i = 0; i < messages.length; i++) {
+        socket.emit(messages[i][0], messages[i][1]);
+    }
 });
