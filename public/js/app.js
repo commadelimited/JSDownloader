@@ -2,7 +2,7 @@ $(function(){
 
     'use strict';
 
-    var socket = io.connect('http://localhost');
+    var socket = io.connect('http://0.0.0.0');
 
     socket.on('fileDone', function (data) {
         var $message = $('<li />').html(data.name).addClass('muted');
