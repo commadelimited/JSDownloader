@@ -11,6 +11,7 @@ var http = require('http'),
     pw = require('password-generator'),
     request = require('request'),
     async = require('async'),
+    zip = require('node-native-zip'),
 
     baseDir = '/tmp/';
 
@@ -80,8 +81,6 @@ extractFileNames = function(type, html, domain) {
         }
     }).join(',').split(',');
 
-    console.log(obj);
-
     return obj;
 };
 
@@ -129,7 +128,52 @@ processRemoteFiles = function(jsArr, cssArr, dir) {
         }
     },function(e){
         sendMessage('done', e);
+        // kick off zip creation
+        writeZip(dir);
     });
+};
+
+/**
+ * Packages local files into a ZIP archive
+ *
+ * @param {dir} directory of source files.
+ * @param {name} the zip archive file name
+ * return {void}
+ */
+writeZip = function(dir,name) {
+    var zipName = baseDir + "/jsd-" + name + ".zip",
+        archive = new zip(),
+        // fileArray = getDirectoryList(dir);
+        fileArray = [ { name: 'ember-latest.js', path: '/tmp/jsd-tanurutabe/' }];
+
+    console.log('---------------------');
+    console.log(fileArray);
+    console.log('---------------------');
+
+    archive.addFiles(fileArray, function (err) {
+        if (err) return console.log("There was an error while adding files", err);
+        var buff = archive.toBuffer();
+        fs.writeFile(zipName, buff, function () {
+            console.log("Finished");
+        });
+    });
+
+};
+
+/**
+ * Returns array of file names from specified directory
+ *
+ * @param {dir} directory of source files.
+ * return {array}
+ */
+getDirectoryList = function(dir){
+    var fileArray = [],
+        files = fs.readdirSync(dir);
+    files.forEach(function(file){
+        var obj = {name: file, path: dir};
+        fileArray.push(obj);
+    });
+    return fileArray;
 };
 
 /**
@@ -173,17 +217,6 @@ download = function(localFile, remotePath, callback) {
             callback(new Error("No file found at given url."),null);
         }
     });
-};
-
-/**
- * Packages local files into a ZIP archive
- *
- * @param {dir} directory of source files.
- * @param {name} the zip archive file name
- * return {void}
- */
-writeZip = function(dir,name) {
-
 };
 
 /**
@@ -255,7 +288,7 @@ exports.download = function(req, res){
             // save index file
             fs.writeFileSync(dir + 'index.html', html);
 
-            // Save JS files
+            // Save JS and CSS files
             processRemoteFiles(js.final, css.final, dir);
 
             // write zip file to /tmp
