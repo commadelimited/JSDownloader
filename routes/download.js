@@ -11,7 +11,7 @@ var http = require('http'),
     pw = require('password-generator'),
     request = require('request'),
     async = require('async'),
-    zip = require('node-native-zip'),
+    archiver = require('archiver'),
 
     baseDir = '/tmp/';
 
@@ -115,7 +115,7 @@ prepFileUrl = function(url, domain) {
  * @param {domain} the target directory
  * return {void}
  */
-processRemoteFiles = function(jsArr, cssArr, dir) {
+processRemoteFiles = function(jsArr, cssArr, dir, name) {
     var contactArr = jsArr.concat(cssArr);
 
     async.forEach(contactArr,function(url, cb){
@@ -129,7 +129,7 @@ processRemoteFiles = function(jsArr, cssArr, dir) {
     },function(e){
         sendMessage('done', e);
         // kick off zip creation
-        writeZip(dir);
+        writeZip(dir, name);
     });
 };
 
@@ -141,21 +141,26 @@ processRemoteFiles = function(jsArr, cssArr, dir) {
  * return {void}
  */
 writeZip = function(dir,name) {
-    var zipName = baseDir + "/jsd-" + name + ".zip",
-        archive = new zip(),
-        // fileArray = getDirectoryList(dir);
-        fileArray = [ { name: 'ember-latest.js', path: '/tmp/jsd-tanurutabe/' }];
+    var zipName = baseDir + "jsd-" + name + ".zip",
+        fileArray = getDirectoryList(dir),
+        output = fs.createWriteStream(zipName),
+        archive = archiver('zip');
 
-    console.log('---------------------');
-    console.log(fileArray);
-    console.log('---------------------');
+    archive.pipe(output);
 
-    archive.addFiles(fileArray, function (err) {
-        if (err) return console.log("There was an error while adding files", err);
-        var buff = archive.toBuffer();
-        fs.writeFile(zipName, buff, function () {
-            console.log("Finished");
-        });
+    fileArray.forEach(function(item){
+        var file = item.path + item.name;
+        archive.append(fs.createReadStream(file), { name: item.name });
+    });
+
+    archive.finalize(function(err, written) {
+      if (err) {
+        console.log('--------------------------');
+        console.log(err);
+        throw err;
+      }
+
+      console.log(written + ' total bytes written');
     });
 
 };
@@ -289,7 +294,7 @@ exports.download = function(req, res){
             fs.writeFileSync(dir + 'index.html', html);
 
             // Save JS and CSS files
-            processRemoteFiles(js.final, css.final, dir);
+            processRemoteFiles(js.final, css.final, dir, uniqueName);
 
             // write zip file to /tmp
             // writeZip(dir,uniqueName);
