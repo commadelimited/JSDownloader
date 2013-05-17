@@ -13,7 +13,7 @@ var http = require('http'),
     async = require('async'),
     archiver = require('archiver'),
 
-    baseDir = '/tmp/';
+    baseDir = 'tmp/';
 
 /**
  * Given a valid URL, returns the correct URL for either JSFiddle or JSBin.
@@ -26,9 +26,7 @@ getSourceUrl = function(url) {
     if (url.indexOf('jsfiddle') > -1) {
         return url + 'show/';
     } else if (url.indexOf('jsbin') > -1) {
-        var reversed = reverse(url),
-            actual = reverse(reversed.replace(/^[^/]+/i,''));
-        return actual;
+        return url + '/quiet';
     } else if (url.indexOf('codepen') > -1) {
         // incoming: http://codepen.io/katmai7/pen/cDtIo
         // outgoing: http://codepen.io/katmai7/fullpage/cDtIo
@@ -80,6 +78,10 @@ extractFileNames = function(type, html, domain) {
             return prepFileUrl(file, domain);
         }
     }).join(',').split(',');
+
+    if (!obj.raw.length) {
+        obj.final.length = 0;
+    }
 
     return obj;
 };
@@ -261,13 +263,11 @@ exports.download = function(req, res){
     urlBits = url.parse(fullurl),
     domain = [urlBits.protocol,'//',urlBits.hostname].join('');
 
-
     http.get(fullurl, function(response) {
         var fullResponse = [];
 
         response
         .on('data', function (chunk) {
-
             // buffer entire HTML page before running the balace of the app
             fullResponse.push(''+chunk);
 
