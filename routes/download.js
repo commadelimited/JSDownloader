@@ -296,8 +296,6 @@ exports.download = function(req, res){
             // Save JS and CSS files
             processRemoteFiles(js.final, css.final, dir, uniqueName);
 
-            // write zip file to /tmp
-            // writeZip(dir,uniqueName);
         });
     }).on('error', function(err) {
         // return error message
