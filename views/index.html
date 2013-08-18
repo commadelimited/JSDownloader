@@ -9,45 +9,18 @@
   </head>
   <body>
     <div id="content" class="container">
-      <form action="/download" method="post" class="span8 form-signin">
-        <div class="row">
-          <div class="span8"><a href="/">
-              <h1 class="form-signin-heading">JSDownloader</h1></a>
-            <p>Enter a JSFiddle URL in the input field below</p>
-            <input type="text" id="source_url" name="source_url" placeholder="Download URL" class="input-block-level">
-          </div>
-          <div class="span2">
-            <input type="submit" class="btn btn-large btn-primary">
-          </div>
-          <div id="messages" class="span5">
-          </div>
-        </div>
-      </form>
-      <div id="links" class="row span14">
-        <div class="span10 offset2">
-          <p>Click one of the examples below to download it's code.</p>
-        </div>
-        <div class="span3 offset1">
-          <h2>JSFiddle</h2>
-          <ul>
-            <li><a href="http://jsfiddle.net/commadelimited/SA45t/2/">/commadelimited/SA45t/2/</a></li>
-            <li><a href="http://jsfiddle.net/odigity/zS5uu/">/odigity/zS5uu/</a></li>
-            <li><a href="http://jsfiddle.net/mT76T/17/">/mT76T/17/</a></li>
-          </ul>
-        </div>
-        <div class="span3 offset1">
-          <h2>CodePen</h2>
-          <ul>
-            <li><a href="http://codepen.io/katmai7/pen/cDtIo">/katmai7/pen/cDtIo</a></li>
-          </ul>
-        </div>
-        <div class="span3 offset1">
-          <h2>JSBin</h2>
-          <ul>
-            <li><a href="http://jsbin.com/oxuyop/777">/oxuyop/777</a></li>
-          </ul>
-        </div>
+      <div id="header">
+        <p><img src="/img/jsdownloader-logo.gif" title="JSDownloader"></p>
+        <h2>Download a ZIP of your favorite JSFiddle, JSBin, or CodePen!</h2>
       </div>
+      <form action="/download" method="post" class="span8 form-signin">
+        <p>
+          <input type="text" id="source_url" name="source_url" placeholder="Enter a JSFiddle, JSBin, or CodePen URL" class="input-block-level">
+        </p>
+        <p>
+          <input type="submit" value="DOWNLOAD" class="btn btn-large btn-primary">
+        </p>
+      </form>
     </div>
   </body>
 </html>
