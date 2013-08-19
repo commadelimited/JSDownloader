@@ -23,13 +23,15 @@ html {
 
 #content {
     text-align: center;
+    width: 510px;
+    margin: 0 auto;
 
     #header {
         margin: 40px 20px;
 
         h2 {
             color: white;
-            font: 1.1em 'Lato';
+            font: 1.05em 'Lato Regular';
         }
         > p:first-child {
             margin-bottom: 40px;
@@ -43,31 +45,63 @@ html {
 
 form {
 
+    margin-bottom: 60px;
+
     input[type=text] {
         background: white;
         border: 2px solid $yellow;
         width: 510px;
         height: 40px;
-        font: 1.1em 'Lato';
+        font: 1.4em 'Lato';
         text-align: center;
         border-radius: 5px;
         box-shadow: inset 0 0px 15px rgba(0, 0, 0, .3),
                     0 5px 20px rgba(0, 0, 0, .5);
     }
 
-    input[type=submit] {
+    button {
         background: $yellow;
-        border-bottom: 2px solid #b59e00;
+        border: 0;
+        box-shadow: 0 5px 0px rgb(181, 158, 0);
         width: 214px;
         height: 40px;
-        font-weight: bold;
-        font: 1.1em 'Lato';
+        font: 1.1em 'Lato Black';
+        border-radius: 5px;
     }
+}
+
+#extras {
+    text-align: left;
+
+    h3 {
+        color: $yellow;
+        font: 1.1em 'Lato Bold';
+        font-size: 20px;
+        border-bottom: 1px solid $yellow;
+        padding: 0 0 10px 10px;
+        margin: 0 0 8px 0;
+    }
+
+    #recent {
+        list-style: none;
+        margin: 0;
+        padding: 0 0 0 5px;
+
+        li {
+            padding: 5px;
+
+            a {
+                font: 1em 'Lato Regular';
+                color: $yellow;
+            }
+        }
+    }
+
 }
 
 /* fonts */
 @font-face {
-  font-family: 'Lato';
+  font-family: 'Lato Regular';
   font-style: normal;
   font-weight: 400;
   src: local('Lato Regular'),
@@ -76,11 +110,20 @@ form {
     url('/fonts/lato-regular.woff') format('woff');
 }
 @font-face {
-  font-family: 'Lato';
+  font-family: 'Lato Bold';
   font-style: normal;
   font-weight: 700;
   src: local('Lato Bold'),
     local('Lato-Bold'),
     url('/fonts/lato-bold.ttf') format('truetype'),
     url('/fonts/lato-bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Lato Black';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Black'),
+    local('Lato-Black'),
+    url('/fonts/lato-black.ttf') format('truetype'),
+    url('/fonts/lato-black.woff') format('woff');
 }
