@@ -54,6 +54,33 @@ form button {
   cursor: pointer;
 }
 
+#messages {
+  text-align: left;
+}
+#messages h3 {
+  color: #f9e034;
+  font: 1.1em 'Lato Bold';
+  font-size: 20px;
+  border-bottom: 1px solid #777777;
+  padding: 0 0 10px 10px;
+  margin: 0 0 8px 0;
+}
+#messages #callout {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 5px;
+}
+#messages #callout li {
+  padding: 5px;
+}
+#messages #callout li a {
+  font: 1em 'Lato Regular';
+  color: #777777;
+}
+#messages #callout li a:hover, #messages #callout li a:visited:hover {
+  color: #f9e034;
+}
+
 #extras {
   text-align: left;
 }
@@ -65,19 +92,19 @@ form button {
   padding: 0 0 10px 10px;
   margin: 0 0 8px 0;
 }
-#extras #recent {
+#extras #callout {
   list-style: none;
   margin: 0;
   padding: 0 0 0 5px;
 }
-#extras #recent li {
+#extras #callout li {
   padding: 5px;
 }
-#extras #recent li a {
+#extras #callout li a {
   font: 1em 'Lato Regular';
   color: #777777;
 }
-#extras #recent li a:hover, #extras #recent li a:visited:hover {
+#extras #callout li a:hover, #extras #callout li a:visited:hover {
   color: #f9e034;
 }
 

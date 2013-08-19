@@ -13,14 +13,6 @@ html {
     background: -ms-radial-gradient(center, ellipse cover,  hsl(240,2%,26%) 0%,hsl(240,10%,18%) 100%);
     background: radial-gradient(ellipse at center,  hsl(240,2%,26%) 0%,hsl(240,10%,18%) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#414143', endColorstr='#282831',GradientType=1 );
-    // background: #282833;
-    // background: -moz-linear-gradient(top,  hsl(240,12%,18%) 0%, hsl(240,1%,35%) 100%);
-    // background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,hsl(240,12%,18%)), color-stop(100%,hsl(240,1%,35%)));
-    // background: -webkit-linear-gradient(top,  hsl(240,12%,18%) 0%,hsl(240,1%,35%) 100%);
-    // background: -o-linear-gradient(top,  hsl(240,12%,18%) 0%,hsl(240,1%,35%) 100%);
-    // background: -ms-linear-gradient(top,  hsl(240,12%,18%) 0%,hsl(240,1%,35%) 100%);
-    // background: linear-gradient(to bottom,  hsl(240,12%,18%) 0%,hsl(240,1%,35%) 100%);
-    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#282833', endColorstr='#575759',GradientType=0 );
 }
 
 #content {
@@ -73,6 +65,38 @@ form {
     }
 }
 
+#messages {
+    text-align: left;
+
+    h3 {
+        color: $yellow;
+        font: 1.1em 'Lato Bold';
+        font-size: 20px;
+        border-bottom: 1px solid $grey;
+        padding: 0 0 10px 10px;
+        margin: 0 0 8px 0;
+    }
+
+    #callout {
+        list-style: none;
+        margin: 0;
+        padding: 0 0 0 5px;
+
+        li {
+            padding: 5px;
+
+            a {
+                font: 1em 'Lato Regular';
+                color: $grey;
+                &:hover, &:visited:hover {
+                    color: $yellow;
+                }
+            }
+        }
+    }
+
+}
+
 #extras {
     text-align: left;
 
@@ -85,7 +109,7 @@ form {
         margin: 0 0 8px 0;
     }
 
-    #recent {
+    #callout {
         list-style: none;
         margin: 0;
         padding: 0 0 0 5px;

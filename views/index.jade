@@ -15,15 +15,16 @@ block content
                 p
                     button() DOWNLOAD
 
-                    //- if msg
-                    //-     p #{msg}
-                    //-     p ...
-                    //-     ul
+        div#messages
+            if msg
+                p #{msg}
+                p ...
+                ul
 
         div#extras
             h3 Recently Downloaded
 
-            ul#recent
+            ul#callout
                 li
                     a(href="http://jsfiddle.net/commadelimited/SA45t/2/") http://jsfiddle.net/commadelimited/SA45t/2/
                 li

@@ -20,7 +20,7 @@ $(function(){
         $('#messages').append($message);
     });
 
-    $(document).on('click', '#recent a', function(e){
+    $(document).on('click', '#callout a', function(e){
         var $a = $(this),
             $input = $('#source_url');
         $input.val($a.attr('href'));
