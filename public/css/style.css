@@ -51,6 +51,7 @@ form button {
   height: 40px;
   font: 1.1em 'Lato Black';
   border-radius: 5px;
+  cursor: pointer;
 }
 
 #extras {
@@ -60,7 +61,7 @@ form button {
   color: #f9e034;
   font: 1.1em 'Lato Bold';
   font-size: 20px;
-  border-bottom: 1px solid #f9e034;
+  border-bottom: 1px solid #777777;
   padding: 0 0 10px 10px;
   margin: 0 0 8px 0;
 }
@@ -74,6 +75,9 @@ form button {
 }
 #extras #recent li a {
   font: 1em 'Lato Regular';
+  color: #777777;
+}
+#extras #recent li a:hover, #extras #recent li a:visited:hover {
   color: #f9e034;
 }
 
