@@ -71,9 +71,10 @@ extractFileNames = function(type, html, domain) {
         };
 
     obj.final = html.find(options[type].find).map(function(i, el) {
-        var file = $(this).attr(options[type].attr);
+        var file = $(this).attr(options[type].attr),
+            regex = '/.' + type + '$/';
         // we only want JS and CSS files right now
-        if (file.match(/.js$/) || file.match(/.css$/)) {
+        if (file.match(regex)) {
             obj.raw.push(file);
             return prepFileUrl(file, domain);
         }
