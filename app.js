@@ -6,6 +6,7 @@
 var express = require('express'),
     routes = require('./routes'),
     download = require('./routes/download'),
+    serve = require('./routes/serve'),
     http = require('http'),
     path = require('path'),
     app = express(),
@@ -37,6 +38,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.post('/download', download.download);
+app.get('/serve/:fileName', serve.serveZip);
 
 server = http.createServer(app).listen(app.get('port'), function(){
     // console.log("Listening on port " + app.get('port'));

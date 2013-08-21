@@ -12,8 +12,7 @@ $(function(){
     });
 
     socket.on('done', function (msg) {
-        var filePath = '/' + msg.dir + '.zip';
-        var $message = $('<li />').addClass('complete text-info').html('<a href="' + filePath.replace('/.', '.') + '" target="_blank">Download complete</a>');
+        var $message = $('<li />').addClass('complete text-info').html('<a href="/serve/roxegumowa" target="_blank">Download complete</a>');
         if ($('#messages .text-error').length) {
             $message.removeClass('text-info').addClass('text-error').html('Download error');
         }
