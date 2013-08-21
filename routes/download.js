@@ -129,9 +129,12 @@ processRemoteFiles = function(jsArr, cssArr, dir, name) {
             });
         }
     },function(e){
-        sendMessage('done', e);
         // kick off zip creation
         writeZip(dir, name);
+        e = e || {};
+        e.dir = dir;
+        e.name = name;
+        sendMessage('done', e);
     });
 };
 

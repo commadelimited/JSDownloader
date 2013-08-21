@@ -11,15 +11,16 @@ $(function(){
         $('#messages ul li').append('...');
     });
 
-    socket.on('done', function () {
-        var $message = $('<li />').addClass('complete text-info').html('Download complete');
+    socket.on('done', function (msg) {
+        var filePath = '/' + msg.dir + '.zip';
+        var $message = $('<li />').addClass('complete text-info').html('<a href="' + filePath.replace('/.', '.') + '" target="_blank">Download complete</a>');
         if ($('#messages .text-error').length) {
             $message.removeClass('text-info').addClass('text-error').html('Download error');
         }
         $('#messages ul').append($message);
     });
 
-    $(document).on('click', '.callout a', function(e){
+    $(document).on('click', '#extras a', function(e){
         var $a = $(this),
             $input = $('#source_url');
         $input.val($a.attr('href'));

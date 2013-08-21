@@ -30,6 +30,9 @@ html {
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
 }
 
+a, a:hover {
+  color: #777777;
+}
 form {
   margin-bottom: 60px;
 }
@@ -104,7 +107,6 @@ form button {
 }
 #extras .callout li a {
   font: 1em 'Lato Regular';
-  color: #777777;
 }
 #extras .callout li a:hover, #extras .callout li a:visited:hover {
   color: #f9e034;
