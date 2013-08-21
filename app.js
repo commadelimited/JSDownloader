@@ -43,6 +43,9 @@ server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 io = require('socket.io').listen(server);
+io.configure('development', function(){
+  io.set('transports', ['xhr-polling']);
+});
 io.sockets.on('connection', function (s) {
     socket = s;
     for (var i = 0; i < messages.length; i++) {
