@@ -33,6 +33,7 @@ html {
 a, a:hover {
   color: #777777;
 }
+
 form {
   margin-bottom: 60px;
 }
@@ -41,7 +42,7 @@ form input[type=text] {
   border: 2px solid #f9e034;
   width: 510px;
   height: 40px;
-  font: 1.4em 'Lato';
+  font: 1.4em 'Lato Regular';
   text-align: center;
   border-radius: 5px;
   box-shadow: inset 0 0px 15px rgba(0, 0, 0, 0.3), 0 5px 20px rgba(0, 0, 0, 0.5);
@@ -81,7 +82,7 @@ form button {
   color: #777777;
 }
 #messages .callout .muted {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 #messages .callout .complete {
   color: #f9e034;
@@ -107,6 +108,7 @@ form button {
 }
 #extras .callout li a {
   font: 1em 'Lato Regular';
+  color: #777777;
 }
 #extras .callout li a:hover, #extras .callout li a:visited:hover {
   color: #f9e034;
