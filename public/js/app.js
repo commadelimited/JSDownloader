@@ -5,11 +5,10 @@ $(function(){
     var socket = io.connect();
 
     socket.on('fileDone', function (data) {
-        var $message = $('<li />').html(data.name).addClass('muted');
         if (!data.success) {
             $message.removeClass('muted').addClass('text-error');
         }
-        $('#messages ul').append($message);
+        $('#messages ul li').append('...');
     });
 
     socket.on('done', function () {

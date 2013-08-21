@@ -77,6 +77,9 @@ form button {
   font: 1em 'Lato Regular';
   color: #777777;
 }
+#messages .callout .muted {
+  margin-bottom: 15px;
+}
 #messages .callout .complete {
   color: #f9e034;
 }
