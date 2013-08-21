@@ -4,7 +4,8 @@ block content
     div(class="container", id="content")
         div#header
             p
-                img(src="/img/jsdownloader-logo.gif", title="JSDownloader")
+                a(href="/")
+                    img(src="/img/jsdownloader-logo.gif", title="JSDownloader")
 
             h2 Download a ZIP of your favorite JSFiddle, JSBin, or CodePen!
 
@@ -13,18 +14,17 @@ block content
                     input(type="text", id="source_url", name="source_url", class="input-block-level", placeholder="Enter a JSFiddle, JSBin, or CodePen URL")
 
                 p
-                    button() DOWNLOAD
+                    button DOWNLOAD
 
         div#messages
             if msg
                 p #{msg}
-                p ...
-                ul
+                ul.callout
 
         div#extras
             h3 Recently Downloaded
 
-            ul#callout
+            ul.callout
                 li
                     a(href="http://jsfiddle.net/commadelimited/SA45t/2/") http://jsfiddle.net/commadelimited/SA45t/2/
                 li

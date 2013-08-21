@@ -68,33 +68,33 @@ form {
 #messages {
     text-align: left;
 
+    > p:first-child {
+        color: $yellow;
+        font: 1.1em 'Lato Bold';
+    }
+
     h3 {
         color: $yellow;
         font: 1.1em 'Lato Bold';
-        font-size: 20px;
-        border-bottom: 1px solid $grey;
         padding: 0 0 10px 10px;
         margin: 0 0 8px 0;
     }
 
-    #callout {
+    .callout {
         list-style: none;
-        margin: 0;
+        margin: 0 0 30px 0;
         padding: 0 0 0 5px;
 
         li {
             padding: 5px;
+            font: 1em 'Lato Regular';
+            color: $grey;
+        }
 
-            a {
-                font: 1em 'Lato Regular';
-                color: $grey;
-                &:hover, &:visited:hover {
-                    color: $yellow;
-                }
-            }
+        .complete {
+            color: $yellow;
         }
     }
-
 }
 
 #extras {
@@ -103,13 +103,12 @@ form {
     h3 {
         color: $yellow;
         font: 1.1em 'Lato Bold';
-        font-size: 20px;
         border-bottom: 1px solid $grey;
         padding: 0 0 10px 10px;
         margin: 0 0 8px 0;
     }
 
-    #callout {
+    .callout {
         list-style: none;
         margin: 0;
         padding: 0 0 0 5px;
