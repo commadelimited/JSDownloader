@@ -2,45 +2,37 @@ extends layout
 
 block content
     div(class="container", id="content")
+        div#header
+            p
+                a(href="/")
+                    img(src="/img/jsdownloader-logo.gif", title="JSDownloader")
+
+            h2 Download a ZIP of your favorite JSFiddle, JSBin, or CodePen!
+
         form(action="/download", method="post", class="span8 form-signin")
-            div(class="row")
-                div(class="span8")
-                    a(href="/")
-                        h1(class="form-signin-heading") JSDownloader
-                    p Enter a JSFiddle URL in the input field below
-                    input(type="text", id="source_url", name="source_url", class="input-block-level", placeholder="Download URL")
+                p
+                    input(type="text", id="source_url", name="source_url", class="input-block-level", placeholder="Enter a JSFiddle, JSBin, or CodePen URL")
 
-                div(class="span2")
-                    input(type="submit", class="btn btn-large btn-primary")
+                p
+                    button DOWNLOAD
 
-                div(class="span5",id="messages")
-                    if msg
-                        p #{msg}
-                        p ...
-                        ul
+        div#messages
+            if msg
+                h3 #{msg}
+                ul.callout
+                    li(class="muted")
 
-        div(class="row span14", id="links")
-            div(class="span10 offset2")
-                p Click one of the examples below to download it's code.
+        div#extras
+            h3 Recently Downloaded
 
-            div(class="span3 offset1")
-                h2 JSFiddle
-                ul
-                    li
-                        a(href="http://jsfiddle.net/commadelimited/SA45t/2/") /commadelimited/SA45t/2/
-                    li
-                        a(href="http://jsfiddle.net/odigity/zS5uu/") /odigity/zS5uu/
-                    li
-                        a(href="http://jsfiddle.net/mT76T/17/") /mT76T/17/
-
-            div(class="span3 offset1")
-                h2 CodePen
-                ul
-                    li
-                        a(href="http://codepen.io/katmai7/pen/cDtIo") /katmai7/pen/cDtIo
-
-            div(class="span3 offset1")
-                h2 JSBin
-                ul
-                    li
-                        a(href="http://jsbin.com/oxuyop/777") /oxuyop/777
+            ul.callout
+                li
+                    a(href="http://jsfiddle.net/commadelimited/SA45t/2/") http://jsfiddle.net/commadelimited/SA45t/2/
+                li
+                    a(href="http://jsfiddle.net/odigity/zS5uu/") http://jsfiddle.net/odigity/zS5uu/
+                li
+                    a(href="http://jsfiddle.net/mT76T/17/") http://jsfiddle.net/mT76T/17/
+                li
+                    a(href="http://codepen.io/katmai7/pen/cDtIo") http://codepen.io/katmai7/pen/cDtIo
+                li
+                    a(href="http://jsbin.com/oxuyop/777") http://jsbin.com/oxuyop/777

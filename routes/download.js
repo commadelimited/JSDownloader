@@ -12,6 +12,7 @@ var http = require('http'),
     request = require('request'),
     async = require('async'),
     archiver = require('archiver'),
+    rimraf = require('rimraf'),
 
     baseDir = 'tmp/';
 
@@ -129,9 +130,12 @@ processRemoteFiles = function(jsArr, cssArr, dir, name) {
             });
         }
     },function(e){
-        sendMessage('done', e);
         // kick off zip creation
         writeZip(dir, name);
+        e = e || {};
+        e.dir = dir;
+        e.name = name;
+        sendMessage('done', e);
     });
 };
 
@@ -156,13 +160,11 @@ writeZip = function(dir,name) {
     });
 
     archive.finalize(function(err, written) {
-      if (err) {
-        console.log('--------------------------');
-        console.log(err);
-        throw err;
-      }
-
-      console.log(written + ' total bytes written');
+        if (err) {
+            throw err;
+        }
+        // do cleanup
+        cleanUp(dir);
     });
 
 };
@@ -248,6 +250,19 @@ rewritePaths = function(html, jsArr, cssArr) {
 };
 
 /**
+ * Performs cleanup of the download process
+ * Deletes download directory
+ *
+ * @param {dir} directory of source files.
+ * return {void}
+ */
+cleanUp = function(dir) {
+    rimraf(dir, function(err) {
+        console.log(err);
+    });
+};
+
+/**
  * Packages local files into a ZIP archive
  *
  * @param {html} source html
@@ -305,5 +320,4 @@ exports.download = function(req, res){
 
     res.render('index', response);
 };
-
 
