@@ -120,6 +120,12 @@ a:hover {
   color: #f9e034;
 }
 
+#footer {
+  margin-top: 50px;
+  color: #f9e034;
+  font: .9em 'Lato Bold';
+}
+
 /* fonts */
 @font-face {
   font-family: 'Lato Regular';
