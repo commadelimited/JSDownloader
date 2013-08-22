@@ -6,7 +6,6 @@
 var express = require('express'),
     routes = require('./routes'),
     download = require('./routes/download'),
-    serve = require('./routes/serve'),
     http = require('http'),
     path = require('path'),
     app = express(),
