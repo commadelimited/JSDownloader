@@ -8,11 +8,12 @@ $(function(){
         if (!data.success) {
             $message.removeClass('muted').addClass('text-error');
         }
-        $('#messages ul li').append('...');
+        $('#messages ul li').addClass('downloading').append('. . . ');
     });
 
     socket.on('done', function (msg) {
-        var $message = $('<li />').addClass('complete text-info').html('<a href="/serve/roxegumowa" target="_blank">Download complete</a>');
+        var filename = 'jsd-' + msg.name + '.zip';
+        var $message = $('<li />').addClass('complete text-info').html('<a href="/serve/' + filename + '" target="_blank">Download complete</a>');
         if ($('#messages .text-error').length) {
             $message.removeClass('text-info').addClass('text-error').html('Download error');
         }

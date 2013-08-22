@@ -12,6 +12,7 @@ var http = require('http'),
     request = require('request'),
     async = require('async'),
     archiver = require('archiver'),
+    rimraf = require('rimraf'),
 
     baseDir = 'tmp/';
 
@@ -159,13 +160,11 @@ writeZip = function(dir,name) {
     });
 
     archive.finalize(function(err, written) {
-      if (err) {
-        console.log('--------------------------');
-        console.log(err);
-        throw err;
-      }
-
-      console.log(written + ' total bytes written');
+        if (err) {
+            throw err;
+        }
+        // do cleanup
+        cleanUp(dir);
     });
 
 };
@@ -248,6 +247,19 @@ rewritePaths = function(html, jsArr, cssArr) {
     });
 
     return local_html;
+};
+
+/**
+ * Performs cleanup of the download process
+ * Deletes download directory
+ *
+ * @param {dir} directory of source files.
+ * return {void}
+ */
+cleanUp = function(dir) {
+    rimraf(dir, function(err) {
+        console.log(err);
+    });
 };
 
 /**

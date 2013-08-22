@@ -37,10 +37,6 @@ html {
     }
 }
 
-a, a:hover {
-  color: #777777;
-}
-
 form {
 
     margin-bottom: 60px;
@@ -69,6 +65,14 @@ form {
     }
 }
 
+a {
+    color: $grey;
+
+    &:hover {
+        color: $yellow;
+    }
+}
+
 #messages {
     text-align: left;
 
@@ -80,6 +84,7 @@ form {
     h3 {
         color: $yellow;
         font: 1.1em 'Lato Bold';
+        border-bottom: 1px solid $grey;
         padding: 0 0 10px 10px;
         margin: 0 0 8px 0;
     }
@@ -92,7 +97,10 @@ form {
         li {
             padding: 5px;
             font: 1em 'Lato Regular';
-            color: $grey;
+        }
+
+        .downloading {
+            color: $yellow;
         }
 
         .muted {

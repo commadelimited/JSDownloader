@@ -38,7 +38,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.post('/download', download.download);
-app.get('/serve/:fileName', serve.serveZip);
+app.use('/serve', express.static(__dirname + '/tmp'));
 
 server = http.createServer(app).listen(app.get('port'), function(){
     // console.log("Listening on port " + app.get('port'));

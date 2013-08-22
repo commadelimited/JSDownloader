@@ -30,10 +30,6 @@ html {
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
 }
 
-a, a:hover {
-  color: #777777;
-}
-
 form {
   margin-bottom: 60px;
 }
@@ -58,6 +54,13 @@ form button {
   cursor: pointer;
 }
 
+a {
+  color: #777777;
+}
+a:hover {
+  color: #f9e034;
+}
+
 #messages {
   text-align: left;
 }
@@ -68,6 +71,7 @@ form button {
 #messages h3 {
   color: #f9e034;
   font: 1.1em 'Lato Bold';
+  border-bottom: 1px solid #777777;
   padding: 0 0 10px 10px;
   margin: 0 0 8px 0;
 }
@@ -79,7 +83,9 @@ form button {
 #messages .callout li {
   padding: 5px;
   font: 1em 'Lato Regular';
-  color: #777777;
+}
+#messages .callout .downloading {
+  color: #f9e034;
 }
 #messages .callout .muted {
   margin-bottom: 10px;
