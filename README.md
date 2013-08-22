@@ -2,6 +2,9 @@
 
 The goal of JSDownloader is to have a simple way to grab the entire contents of a JSFiddle, JSBin or CodePen URL.
 
+## Try it live
+Try out the live version at [JSDownloader.com](JSDownloader.com).
+
 ## Installation
 
 Clone the repo locally: git clone https://github.com/commadelimited/JSDownloader.git
