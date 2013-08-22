@@ -37,12 +37,16 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.post('/download', download.download);
+app.use('/serve', express.static(__dirname + '/tmp'));
 
 server = http.createServer(app).listen(app.get('port'), function(){
     // console.log("Listening on port " + app.get('port'));
 });
 
 io = require('socket.io').listen(server);
+io.configure('production', function(){
+  io.set('transports', ['xhr-polling']);
+});
 io.sockets.on('connection', function (s) {
     socket = s;
     for (var i = 0; i < messages.length; i++) {

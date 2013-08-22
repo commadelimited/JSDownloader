@@ -1,3 +1,5 @@
 node_modules
 env
 .idea
+source/
+codekit-config.json
