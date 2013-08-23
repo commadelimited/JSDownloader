@@ -20,6 +20,19 @@ $(function(){
         $('#messages ul').append($message);
     });
 
+    // retrieve recently downloaded URLs and populate the page with them.
+    $.get('/recent').then(
+        function(data, result){
+            var $ul = $('#extras .callout'),
+                $item;
+
+            data.downloads.forEach(function(download){
+                $item = $('<li />').html('<a href="' + download + '" target="_blank">' + download + '</a>');
+                $ul.append($item);
+            });
+        }
+    );
+
     $(document).on('click', '#extras a', function(e){
         var $a = $(this),
             $input = $('#source_url');
