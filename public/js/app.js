@@ -5,6 +5,7 @@ $(function(){
     var socket = io.connect();
 
     socket.on('fileDone', function (data) {
+        console.log('filedone');
         if (!data.success) {
             $message.removeClass('muted').addClass('text-error');
         }
@@ -12,6 +13,7 @@ $(function(){
     });
 
     socket.on('done', function (msg) {
+        console.log('done');
         var filename = 'jsd-' + msg.name + '.zip';
         var $message = $('<li />').addClass('complete text-info').html('<a href="/serve/' + filename + '" target="_blank">Download complete</a>');
         if ($('#messages .text-error').length) {
