@@ -145,8 +145,17 @@ a {
 
 #footer {
     margin-top: 50px;
-    color: $yellow;
-    font: .9em 'Lato Bold';
+
+    a {
+        font: 0.9em 'Lato Regular';
+        padding-right: 10px;
+        padding-left: 10px;
+        border-right: 1px solid $grey;
+
+        &:last-child {
+            border: none;
+        }
+    }
 }
 
 /* fonts */

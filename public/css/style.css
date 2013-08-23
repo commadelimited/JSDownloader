@@ -122,8 +122,15 @@ a:hover {
 
 #footer {
   margin-top: 50px;
-  color: #f9e034;
-  font: .9em 'Lato Bold';
+}
+#footer a {
+  font: 0.9em 'Lato Regular';
+  padding-right: 10px;
+  padding-left: 10px;
+  border-right: 1px solid #777777;
+}
+#footer a:last-child {
+  border: none;
 }
 
 /* fonts */
