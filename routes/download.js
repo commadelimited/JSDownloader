@@ -281,7 +281,11 @@ exports.download = function(req, res){
     client = redis.createClient();
 
     // store URL in redis for future retrieval
-    client.rpush('recentdownloads', req.body.source_url);
+    try {
+        client.rpush('recentdownloads', req.body.source_url);
+    } catch(err) {
+        console.log(err);
+    }
 
     http.get(fullurl, function(response) {
         var fullResponse = [];
