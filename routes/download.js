@@ -13,7 +13,7 @@ var http = require('http'),
     async = require('async'),
     archiver = require('archiver'),
     rimraf = require('rimraf'),
-    redis = require('redis'),
+    // redis = require('redis'),
 
     baseDir = 'tmp/';
 
@@ -277,15 +277,15 @@ exports.download = function(req, res){
     },
     fullurl = getSourceUrl(req.body.source_url),
     urlBits = url.parse(fullurl),
-    domain = [urlBits.protocol,'//',urlBits.hostname].join(''),
-    client = redis.createClient();
+    domain = [urlBits.protocol,'//',urlBits.hostname].join('');
 
     // store URL in redis for future retrieval
-    try {
-        client.rpush('recentdownloads', req.body.source_url);
-    } catch(err) {
-        console.log(err);
-    }
+    // try {
+    //     var client = redis.createClient();
+    //     client.rpush('recentdownloads', req.body.source_url);
+    // } catch(err) {
+    //     console.log(err);
+    // }
 
     http.get(fullurl, function(response) {
         var fullResponse = [];

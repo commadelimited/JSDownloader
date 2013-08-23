@@ -9,7 +9,6 @@ var express = require('express'),
     recent = require('./routes/recent'),
     http = require('http'),
     path = require('path'),
-    redis = require('redis'),
     app = express(),
     server, io, socket, messages = [];
 
