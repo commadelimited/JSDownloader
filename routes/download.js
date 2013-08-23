@@ -24,7 +24,6 @@ var http = require('http'),
  * return {string}
  */
 getSourceUrl = function(url) {
-
     if (url.indexOf('jsfiddle') > -1) {
         return url + 'show/';
     } else if (url.indexOf('jsbin') > -1) {
