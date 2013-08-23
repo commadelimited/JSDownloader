@@ -23,16 +23,9 @@ getRecentDownloads = function(count){
  */
 exports.downloads = function(req, res){
     var response = {
-        downloads: [
-            'http://jsfiddle.net/commadelimited/SA45t/2/',
-            'http://jsfiddle.net/odigity/zS5uu/',
-            'http://jsfiddle.net/mT76T/17/',
-            'http://codepen.io/katmai7/pen/cDtIo',
-            'http://jsbin.com/oxuyop/777',
-        ]
+        downloads: getRecentDownloads(10)
     };
 
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(JSON.stringify(response));
+    res.send(response);
     res.end();
 };
