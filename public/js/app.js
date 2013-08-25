@@ -23,7 +23,7 @@ $(function(){
     });
 
     // retrieve recently downloaded URLs and populate the page with them.
-    $.get('/recent').then(
+    $.getJSON('/recent').then(
         function(data, result){
             var $ul = $('#extras .callout'),
                 $item;

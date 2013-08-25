@@ -263,6 +263,24 @@ cleanUp = function(dir) {
 };
 
 /**
+ * Creates authorized redis client, ready for working
+ *
+ * return {object}
+ */
+var getAuthorizedClient = function() {
+    if (ENVIRONMENT === 'prod') {
+        var service_type = "redis-2.2",
+            json = JSON.parse(process.env.VCAP_SERVICES),
+            credentials = json[service_type][0]["credentials"],
+            client = redis.createClient(credentials.port, credentials.host);
+        client.auth(credentials.password);
+        return client;
+    } else {
+        return redis.createClient();
+    }
+};
+
+/**
  * Packages local files into a ZIP archive
  *
  * @param {html} source html
@@ -277,14 +295,6 @@ exports.download = function(req, res){
     fullurl = getSourceUrl(req.body.source_url),
     urlBits = url.parse(fullurl),
     domain = [urlBits.protocol,'//',urlBits.hostname].join('');
-
-    // store URL in redis for future retrieval
-    try {
-        var client = redis.createClient();
-        client.rpush('recentdownloads', req.body.source_url);
-    } catch(err) {
-        console.log(err);
-    }
 
     http.get(fullurl, function(response) {
         var fullResponse = [];
@@ -318,6 +328,14 @@ exports.download = function(req, res){
 
             // Save JS and CSS files
             processRemoteFiles(js.final, css.final, dir, uniqueName);
+
+            // store URL in redis for future retrieval
+            try {
+                var client = getAuthorizedClient();
+                client.rpush('recentdownloads', req.body.source_url);
+            } catch(err) {
+                console.log(err);
+            }
 
         });
     }).on('error', function(err) {

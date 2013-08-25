@@ -1,53 +1,39 @@
 var redis = require('redis');
 
+if (process.env.VCAP_SERVICES) {
+    ENVIRONMENT = 'prod';
+} else {
+    ENVIRONMENT = 'dev';
+}
+
 /**
- * Retrieves redis credentials.
+ * Creates authorized redis client, ready for working
  *
- * @param {url} valid URL
  * return {object}
  */
-var getClient = function() {
-    if (process.env.VCAP_SERVICES) {
+var getAuthorizedClient = function() {
+    if (ENVIRONMENT === 'prod') {
         var service_type = "redis-2.2",
             json = JSON.parse(process.env.VCAP_SERVICES),
-            credentials = json[service_type][0]["credentials"];
-
-        return redis.createClient(credentials["port"], credentials["host"]);
+            credentials = json[service_type][0]["credentials"],
+            client = redis.createClient(credentials.port, credentials.host);
+        client.auth(credentials.password);
+        return client;
     } else {
         return redis.createClient();
     }
-};
-
-/**
- * Returns the x most recent downloaded URLs
- *
- * @param {count} how many to retrieve
- * return {array}
- */
-getRecentDownloads = function(count){
-    var client,
-        downloadArr = [];
-
-    // retrieve recently downloaded URLs
-    client = getClient();
-    client.lrange("recentdownloads", 0 , count, function(err, downloads) {
-        return downloads;
-    });
 };
 
 /*
  * GET home page.
  */
 exports.downloads = function(req, res){
-    var response = {
-        downloads: getRecentDownloads(10)
-        // downloads: ['http://jsfiddle.net/commadelimited/SA45t/2/',
-        //             'http://jsfiddle.net/odigity/zS5uu/',
-        //             'http://jsfiddle.net/mT76T/17/',
-        //             'http://codepen.io/katmai7/pen/cDtIo',
-        //             'http://jsbin.com/oxuyop/777']
-    };
-
-    res.send(response);
-    res.end();
+    var client = getAuthorizedClient(),
+        response = {};
+    // retrieve recently downloaded URLs
+    client.lrange("recentdownloads", 0 , 10, function(err, downloads) {
+        response.downloads = downloads.reverse();
+        res.send(response);
+        res.end();
+    });
 };

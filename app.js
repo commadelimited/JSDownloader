@@ -7,7 +7,7 @@ var express = require('express'),
     routes = require('./routes'),
     download = require('./routes/download'),
     recent = require('./routes/recent'),
-    testing = require('./routes/testing'),
+    // testing = require('./routes/testing'),
     http = require('http'),
     path = require('path'),
     app = express(),
@@ -41,8 +41,7 @@ app.get('/', routes.index);
 app.post('/download', download.download);
 app.use('/serve', express.static(__dirname + '/tmp'));
 app.use('/recent', recent.downloads);
-
-app.get('/testing', testing.testing);
+// app.get('/testing', testing.testing);
 
 server = http.createServer(app).listen(app.get('port'), function(){
     // console.log("Listening on port " + app.get('port'));
